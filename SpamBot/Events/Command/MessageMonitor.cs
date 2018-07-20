@@ -43,12 +43,15 @@ namespace SpamBot.Events.Command
                 if (Map.TryGetValue(context.User.Id, out guildId))
                 {
                     var guild = _discordSocketClient.GetGuild(guildId);
-                    foreach (var socketGuildUser in guild.Users)
+                    await guild.DownloadUsersAsync();
+                    var users = guild.Users;
+                    foreach (var socketGuildUser in users)
                     {
                         if (socketGuildUser.IsBot) continue;
                         await socketGuildUser.SendMessageAsync(message.ToString());
                     }
-                    Debug.Log($"spam:{message.ToString()}");
+
+                    Debug.Log($"spam:{message.ToString()}:{users.Count}人");
                     Map.Remove(context.User.Id);
                     return;
                 }
