@@ -49,6 +49,7 @@ namespace SpamBot.Events.Command
                         await socketGuildUser.SendMessageAsync(message.ToString());
                     }
                     Debug.Log($"spam:{message.ToString()}");
+                    Map.Remove(context.User.Id);
                     return;
                 }
 
