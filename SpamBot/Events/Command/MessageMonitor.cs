@@ -48,7 +48,14 @@ namespace SpamBot.Events.Command
                     foreach (var socketGuildUser in users)
                     {
                         if (socketGuildUser.IsBot) continue;
-                        await socketGuildUser.SendMessageAsync(message.ToString());
+                        try
+                        {
+                            await socketGuildUser.SendMessageAsync(message.ToString());
+                        }
+                        catch (Exception e)
+                        {
+                            Debug.Log(e);
+                        }
                     }
 
                     Debug.Log($"spam:{message.ToString()}:{users.Count}人");
